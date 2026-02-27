@@ -85,20 +85,77 @@ body.has-topbar-padding .hero{
   border-radius:8px;
 }
 
-/* === Masukkan media queries di sini (di bawah .nav-toggle) === */
+/* === Responsive: hero stack (letakkan di akhir file, setelah .nav-toggle) === */
 @media (max-width: 768px) {
-  /* aturan untuk men-stack hero: teks dulu, gambar kemudian */
-  .hero-inner { grid-template-columns: 1fr; gap:20px; text-align:center; }
-  .hero-left { order: 1; padding: 0 12px; }
-  .hero-image { order: 2; margin: 0 auto; padding: 0 12px; width:100%; max-width:420px; }
-  .hero-image img { width:100%; height:auto; display:block; border-radius:12px; }
-  .hero-actions .btn { width:100%; margin:8px auto; }
+  /* Pastikan container hero menggunakan grid/flex */
+  .hero-inner {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+    align-items: start;
+    text-align: center;
+    padding: 0 16px;
+  }
+
+  /* Teks hero muncul dulu */
+  .hero-left {
+    order: 1;
+    max-width: 100%;
+    padding: 0;
+    margin: 0 auto;
+  }
+
+  /* Gambar hero turun ke bawah */
+  .hero-image,
+  .hero-right {
+    order: 2;
+    width: 100%;
+    max-width: 520px;
+    margin: 0 auto;
+    padding: 0;
+  }
+
+  /* Jika gambar adalah <img> */
+  .hero-image img,
+  .hero-right img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 12px;
+    object-fit: cover;
+  }
+
+  /* Tombol lebih besar dan mudah disentuh */
+  .hero-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .hero-actions .btn {
+    width: 100%;
+    max-width: 420px;
+    padding: 12px 16px;
+    font-size: 16px;
+  }
+
+  /* Header: tampilkan tombol burger, sembunyikan nav */
+  .nav { display: none; }
+  .nav.show { display: flex; flex-direction: column; gap: 10px; }
+  .nav-toggle { display: inline-flex; }
+
+  /* Spacing umum */
+  .hero { padding-top: 84px; padding-bottom: 48px; }
 }
 
-/* tambahan untuk layar sangat kecil */
+/* Penyesuaian untuk layar sangat kecil */
 @media (max-width: 480px) {
-  .hero-title { font-size: clamp(24px, 6vw, 32px); }
-  .brand { font-size: 18px; }
+  .hero-title { font-size: clamp(20px, 6vw, 28px); }
+  .hero-sub { font-size: 15px; padding: 0 6px; }
+  .brand { font-size: 16px; }
+  .header-inner { padding: 8px 12px; }
 }
 
 /* Hero */
@@ -268,5 +325,6 @@ input:focus, textarea:focus{box-shadow:0 6px 20px rgba(0,0,0,0.45);border-color:
   .social-grid{grid-template-columns:repeat(2,1fr)}
   .floating-contact{right:12px;bottom:12px}
 }
+
 
 
