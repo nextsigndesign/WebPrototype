@@ -85,13 +85,20 @@ body.has-topbar-padding .hero{
   border-radius:8px;
 }
 
-/* === Responsive adjustments === */
+/* === Masukkan media queries di sini (di bawah .nav-toggle) === */
 @media (max-width: 768px) {
-  /* aturan untuk tablet & mobile */
+  /* aturan untuk men-stack hero: teks dulu, gambar kemudian */
+  .hero-inner { grid-template-columns: 1fr; gap:20px; text-align:center; }
+  .hero-left { order: 1; padding: 0 12px; }
+  .hero-image { order: 2; margin: 0 auto; padding: 0 12px; width:100%; max-width:420px; }
+  .hero-image img { width:100%; height:auto; display:block; border-radius:12px; }
+  .hero-actions .btn { width:100%; margin:8px auto; }
 }
 
+/* tambahan untuk layar sangat kecil */
 @media (max-width: 480px) {
-  /* aturan untuk layar kecil (smartphone) */
+  .hero-title { font-size: clamp(24px, 6vw, 32px); }
+  .brand { font-size: 18px; }
 }
 
 /* Hero */
@@ -261,4 +268,5 @@ input:focus, textarea:focus{box-shadow:0 6px 20px rgba(0,0,0,0.45);border-color:
   .social-grid{grid-template-columns:repeat(2,1fr)}
   .floating-contact{right:12px;bottom:12px}
 }
+
 
