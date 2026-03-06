@@ -87,137 +87,107 @@ body.has-topbar-padding .hero{
 
 /* === Responsive adjustments === */
 /* =========================
-   Mobile-first responsive
+   Mobile layout tweaks
    ========================= */
 
-/* General mobile defaults (up to 768px) */
+/* Force hero image above text on small screens */
 @media (max-width: 768px) {
-  /* Container & spacing */
-  .container { padding: 0 16px; max-width: 980px; }
-
-  /* Header / topbar */
-  .site-header { top: 10px; left: 8px; right: 8px; }
-  .header-inner { margin: 0 8px; padding: 8px 12px; border-radius: 12px; }
-  .brand { font-size: 16px; }
-  .nav { display: none; } /* hide desktop nav on mobile */
-  .nav-toggle { display: inline-flex; align-items:center; justify-content:center; gap:8px; }
-  .topbar-inner { padding: 8px 12px; }
-
-  /* Mobile nav panel (toggle-controlled) */
-  .mobile-nav {
-    position: fixed;
-    top: 64px;
-    right: 12px;
-    width: calc(100% - 32px);
-    max-width: 360px;
-    background: linear-gradient(180deg, rgba(15,23,34,0.98), rgba(11,17,26,0.98));
-    border-radius: 12px;
-    padding: 12px;
-    box-shadow: 0 18px 40px rgba(2,6,23,0.6);
-    display: none;
-    flex-direction: column;
-    gap: 8px;
-    z-index: 140;
+  /* Use grid areas so we can reorder cleanly */
+  .hero-inner {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto;
+    grid-template-areas:
+      "hero-media"
+      "hero-content";
+    gap: 16px;
+    align-items: start;
   }
-  .mobile-nav.open { display: flex; }
-  .mobile-nav a { padding: 12px; border-radius: 10px; display:block; font-weight:700; color:var(--text); text-decoration:none; }
-  .mobile-nav a:hover { background: rgba(255,255,255,0.02); transform:none; }
 
-  /* Hero layout -> single column */
-  .hero { padding-top: 84px; padding-bottom: 48px; min-height: 56vh; }
-  .hero-inner { display: grid; grid-template-columns: 1fr; gap: 18px; align-items: start; }
-  .hero-left { max-width: 100%; }
-  .hero-title { font-size: clamp(22px, 7.2vw, 36px); line-height:1.06; margin-bottom:10px; }
-  .hero-sub { font-size: 15px; margin-bottom:12px; color:var(--muted); }
+  /* Ensure the media card is first */
+  .hero-card { grid-area: hero-media; order: -1; width:100%; max-width:100%; }
+  .hero-left  { grid-area: hero-content; }
 
-  /* Hero actions: stacked, full width */
-  .hero-actions { flex-direction: column; gap: 10px; width:100%; }
-  .btn { width: 100%; justify-content:center; padding:12px 14px; border-radius:12px; font-size:15px; min-height:44px; }
-  .btn.primary { padding:12px 14px; }
-  .btn.outline { background:transparent; border:1px solid rgba(255,255,255,0.06); }
-
-  /* Trust list -> vertical */
-  .trust-list { flex-direction: column; gap:8px; margin-top:10px; color:var(--muted); font-size:13px; }
-
-  /* Hero media card adjustments */
-  .hero-card { max-width:100%; width:100%; border-radius:12px; box-shadow:0 12px 36px rgba(2,6,23,0.55); overflow:hidden; }
-  .hero-card img { height:220px; object-fit:cover; width:100%; transition:transform .45s ease; }
-  @media (hover: hover) and (pointer: fine) {
-    .hero-card:hover img { transform: scale(1.02); }
+  /* Make hero-card image responsive and not too tall */
+  .hero-card img {
+    width:100%;
+    height:220px;
+    object-fit:cover;
+    display:block;
+    border-radius:12px;
   }
-  .hero-card-overlay { padding:12px; bottom:0; background: linear-gradient(180deg, rgba(2,6,23,0.0) 0%, rgba(2,6,23,0.72) 75%); }
-  .overlay-text { font-size:14px; font-weight:700; color:var(--text); text-shadow:0 6px 18px rgba(2,6,23,0.6); }
 
-  /* Grid & cards */
-  .grid { gap:14px; }
-  .services-grid { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
-  .card { padding:14px; border-radius:12px; box-shadow:0 10px 28px rgba(2,6,23,0.45); transition:transform .22s ease, box-shadow .22s ease; }
-  .card:hover { transform: translateY(-6px); box-shadow:0 18px 44px rgba(2,6,23,0.55); }
+  /* Stack CTAs and make them full width */
+  .hero-actions { flex-direction:column; gap:10px; }
+  .hero-actions .btn { width:100%; }
 
-  /* Portfolio */
-  .portfolio-grid { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
-  .project img { height:160px; border-radius:10px; }
+  /* Services grid: 2 columns, up to 3 rows (2x3) */
+  .services-grid {
+    display:grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap:12px;
+    align-items:stretch;
+  }
+  /* Limit visible rows if you want exactly 6 items shown (optional) */
+  /* .services-grid { max-height: calc( (var(--service-card-height, 84px) + 12px) * 3 ); overflow:hidden; } */
 
-  /* Process grid -> 2 columns on small tablets */
-  .process-grid { grid-template-columns: repeat(2, 1fr); gap:14px; }
-  .process-step { padding:14px; gap:12px; border-radius:12px; }
+  /* Service card style for consistent height */
+  .service.card, .service-card, .card.service {
+    display:flex;
+    flex-direction:column;
+    justify-content:flex-start;
+    min-height:92px;
+    padding:12px;
+    border-radius:12px;
+  }
 
-  /* Step badge smaller */
-  .step-badge { min-width:48px; height:48px; font-size:14px; border-radius:10px; }
+  /* Portfolio grid: 2 columns on mobile */
+  .portfolio-grid {
+    display:grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap:12px;
+  }
+  .project img { width:100%; height:140px; object-fit:cover; border-radius:10px; }
 
-  /* Contact layout -> stack */
-  .contact-grid { grid-template-columns: 1fr; gap:16px; }
-  .contact-card { padding:18px; border-radius:12px; }
+  /* Process grid: 2 columns on mobile, stack to 3 rows if 6 items */
+  .process-grid {
+    display:grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap:12px;
+  }
+  .process-step { padding:12px; border-radius:12px; min-height:88px; }
 
-  /* Utilities */
-  .footer { padding:18px 8px; font-size:13px; text-align:center; color:var(--muted); }
-  .counter { font-size:1.25rem; }
+  /* Contact / Hubungi Kami: 2-column layout for contact items */
+  .contact-grid {
+    display:grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap:12px;
+  }
+  .contact-card { padding:12px; border-radius:12px; }
 
-  /* Reduce heavy visual effects on low-end devices */
-  .hero-card, .card, .process-step { box-shadow: 0 8px 20px rgba(2,6,23,0.45); }
+  /* Small visual tweaks */
+  .hero-title { font-size: clamp(20px, 7.5vw, 32px); }
+  .hero-sub { font-size:14px; }
+  .trust-list { gap:8px; font-size:13px; flex-direction:column; }
+
+  /* Ensure buttons and touch targets are comfortable */
+  .btn { min-height:44px; padding:10px 12px; border-radius:10px; font-size:15px; }
+
+  /* Reduce heavy shadows for battery/performant mobile */
+  .hero-card, .card, .process-step { box-shadow: 0 8px 24px rgba(2,6,23,0.45); }
+
+  /* Optional: center overlay CTA inside hero-card on mobile */
+  .hero-card-overlay { align-items:flex-start; padding:12px; }
 }
 
-/* Extra small phones (<=480px) */
+/* Extra small phones: tighten spacing */
 @media (max-width: 480px) {
-  .container { padding: 0 12px; }
-  .site-header { top: 6px; left:6px; right:6px; }
-  .header-inner { padding: 8px 10px; margin: 0 6px; border-radius:10px; }
-  .brand { font-size: 15px; }
-
-  /* Mobile nav placement */
-  .mobile-nav { top: 56px; right: 8px; width: calc(100% - 16px); max-width: 340px; }
-
-  /* Hero */
-  .hero { padding-top: 72px; padding-bottom: 36px; min-height: 50vh; }
-  .hero-title { font-size: clamp(20px, 8.5vw, 30px); }
-  .hero-sub { font-size: 14px; }
-
-  /* Hero card image smaller */
   .hero-card img { height:180px; }
-
-  /* Buttons full width and comfortable touch targets */
-  .btn { padding:12px; border-radius:12px; font-size:15px; min-height:48px; }
-  .btn.primary, .card-cta { box-shadow: 0 8px 24px rgba(212,175,55,0.10); }
-
-  /* Process grid -> single column */
-  .process-grid { grid-template-columns: 1fr; gap:12px; }
-  .process-step { padding:12px; gap:10px; }
-
-  /* Portfolio images */
-  .project img { height:140px; }
-
-  /* Reduce transitions for battery saving */
-  @media (prefers-reduced-motion: reduce) {
-    .hero-card img, .card, .process-step { transition: none; }
-  }
-}
-
-/* Smallest screens (<=360px) tweaks */
-@media (max-width: 360px) {
-  .hero-card img { height:160px; }
-  .overlay-text { font-size:13px; }
-  .trust-list { font-size:13px; gap:6px; }
-  .brand { font-size:14px; }
+  .project img { height:120px; }
+  .service.card, .service-card, .card.service { min-height:84px; padding:10px; }
+  .process-step { min-height:76px; padding:10px; }
+  .contact-card { padding:10px; }
+  .container { padding-left:12px; padding-right:12px; }
 }
 /* Hero */
 .hero{padding-top:110px;padding-bottom:80px;min-height:72vh;display:flex;align-items:center}
